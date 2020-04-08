@@ -662,7 +662,7 @@ void AT_SIM7020E:: manageResponse(String &retdata,String server){
 /****************************************/
 /**          SendPOST                  **/
 /****************************************/
-bool AT_SIM7020E::sendPOST(&data, endpoint, directory){
+bool AT_SIM7020E::sendPOST(String &data, String endpoint,String directory){
     bool status=false;
   _Serial->println(F("AT+CHTTPCREATE=\""+ endpoint +"\""));
   delay(500);

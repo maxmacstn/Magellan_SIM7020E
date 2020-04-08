@@ -41,7 +41,7 @@ public:
 	bool checkPSMmode();
 	//==========Data send/rec.===============
 	void waitResponse(String &retdata,String server);
-	bool sendPOST(&data, endpoint, directory);
+	bool sendPOST(String &data,String endpoint,String directory);
 	void _Serial_print(String address,String port,unsigned int len);
 	void _Serial_print(String input);
 	void _Serial_print(unsigned int data);

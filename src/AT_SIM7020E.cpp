@@ -664,7 +664,7 @@ void AT_SIM7020E:: manageResponse(String &retdata,String server){
 /****************************************/
 bool AT_SIM7020E::sendPOST(String &data, String endpoint,String directory){
     bool status=false;
-  _Serial->println(F("AT+CHTTPCREATE=\""+ endpoint +"\""));
+  _Serial->println(F(String("AT+CHTTPCREATE=\""+ endpoint +"\"")));
   delay(500);
   while(1){
     if(_Serial->available()){

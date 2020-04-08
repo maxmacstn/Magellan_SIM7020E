@@ -41,6 +41,7 @@ public:
 	bool checkPSMmode();
 	//==========Data send/rec.===============
 	void waitResponse(String &retdata,String server);
+	void sendPOST(String &data, String server);
 	void _Serial_print(String address,String port,unsigned int len);
 	void _Serial_print(String input);
 	void _Serial_print(unsigned int data);

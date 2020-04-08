@@ -660,6 +660,54 @@ void AT_SIM7020E:: manageResponse(String &retdata,String server){
 }
 
 /****************************************/
+/**          SendPOST                  **/
+/****************************************/
+bool AT_SIM7020E::sendPOST(&data, endpoint, directory){
+    bool status=false;
+  _Serial->println(F("AT+CHTTPCREATE=\""+ endpoint +"\""));
+  delay(500);
+  while(1){
+    if(_Serial->available()){
+      data_input=_Serial->readStringUntil('\n');
+      if(data_input.indexOf(F("OK"))!=-1){
+        //break;
+      }
+      else if(data_input.indexOf(F("+CHTTPCREATE: 0"))!=-1){
+        status=true;
+        break;
+      }
+    }
+  }
+
+  if(status){
+    _Serial->print(F("AT+CHTTPSEND=0,1,"));
+    _Serial->print(directory);
+    _Serial->print(F(","));
+    _Serial->println("417574686f72697a6174696f6e3a204265617265722077384f4951753743763764317136375a4c506e774c6152714e4f656c547259486a786634644a4f303030300d0a436f6e74656e742d547970653a206170706c69636174696f6e2f782d7777772d666f726d2d75726c656e636f6465640d0a,\"application/json\",6d6573736167653d6e62696f74207669736974207769616e676e616b");
+    while(1){
+      if(_Serial->available()){
+        data_input=_Serial->readStringUntil('\n');
+        if(data_input.indexOf(F("+CHTTPERR:"))!=-1){
+          break;
+        }
+        else if(data_input.indexOf(F("ERROR"))!=-1) {
+          status = false;
+          break;
+        }
+      }
+    }
+    //if(debug) Serial.println("Create socket success");
+  }
+  _Serial->println(F("AT+CHTTPDISCON=0"));
+  _Serial->println(F("AT+CHTTPDESTROY=0"));
+
+  delay(1000);
+  return status;
+}
+
+
+
+/****************************************/
 /**          Utility                   **/
 /****************************************/
 // print char * to hex
